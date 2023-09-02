@@ -1,0 +1,74 @@
+import React from 'react'
+import { useState } from 'react';
+import axios from 'axios';
+import { AppRoute } from '../../App';
+import Swal from 'sweetalert2'
+import { Link } from 'react-router-dom';
+
+
+
+function SingUp() {
+    const [Name, setName] = useState("");
+    const [Email, setEmail] =useState("");
+    const [Password, setPassword] = useState("");
+    
+  const singupUser = (e) => {
+    e.preventDefault();
+    const payload = {Email, Password, Name}
+    console.log(payload)
+    axios.post(`${AppRoute}api/singup`, payload)
+     .then(json => {console.log(json.data)})
+    .catch(err => console.log(err))
+    Swal.fire({
+      icon: 'success',
+      title: 'Your Account Created Sucessfully ,Now Login With your Email & Password',
+      // text: '',
+      // footer: '<a href="">Why do I have this issue?</a>'
+    })
+  }
+
+  return (
+    <div className='login_container'>
+        <form onSubmit={singupUser}>
+        <div className="login_form_container">
+  <div className="login_form">
+    <h2>SingUp</h2>
+    <div className="input_group">
+      <i className="fa fa-user" />
+      <input type="text" placeholder="Username" className="input_text" 
+       value={Name}
+       onChange={(e) => setName(e.target.value)}
+      />
+    </div>
+    {/* <div className="input_group">
+      <i className="fa fa-user" />
+      <input type="text" placeholder="Last Name" className="input_text" />
+    </div> */}
+    <div className="input_group">
+      <i className="fa fa-envelope" />
+      <input type="email" placeholder="Email" className="input_text"
+      value={Email}
+      onChange={(e) => setEmail(e.target.value)}
+      />
+    </div>
+    <div className="input_group">
+      <i className="fa fa-unlock-alt" />
+      <input type="password" placeholder="Password" className="input_text"
+       value={Password}
+       onChange={(e) => setPassword(e.target.value)}
+      />
+    </div>
+    <div className="button_group" id="login_button">
+    <button type='submit'>Submit</button>
+    </div>
+    <div className="fotter">
+      <Link to='/login' className='text-warning'> Login</Link>
+    </div>
+  </div>
+</div>
+</form>
+    </div>
+  )
+}
+
+export default SingUp
